@@ -33,16 +33,28 @@ const bowlingGame = {
   },
 
   famesScorePromt: function () {
-    for (let frame = 0; frame <= 10; frame++) {
-      this.gameScore.push(
-        bowlingGame.frameCalc(
-          Number(prompt('Provide score for firstBall')),
-          Number(prompt('Provide score for SecondBowl'))
-        )
-      );
-      console.log(frame);
+    for (let frame = 1; frame <= 10; frame++) {
+      let ball1 = Number(prompt('Provide score for first ball'));
+      let ball2 = 0;
+      if (10 > ball1) {
+        ball2 = Number(prompt('Provide score for second ball'));
+      }
+      if (frame <= 9 && ball1 === 10) {
+        this.gameScore.push(bowlingGame.frameCalc(ball1));
+        console.log(`Playing frame ${frame}`);
+      } else if (frame === 10 && ball1 === 10) {
+        ball2 = Number(prompt('Provide score for second ball'));
+        let ball3 = Number(prompt('Provide score for the extra throw'));
+        this.gameScore.push(bowlingGame.frameCalc(ball1, ball2));
+        this.gameScore.push(bowlingGame.frameCalc(ball3));
+        console.log(`Playing Special ${frame}`);
+      } else {
+        this.gameScore.push(bowlingGame.frameCalc(ball1, ball2));
+        console.log(`Playing 2 rozne ${frame}`);
+      }
     }
   },
+
   famesScoreArr: function () {
     for (let frame = 0; frame > 10; frame++) {
       bowlingGame.frameCalc();
@@ -51,4 +63,5 @@ const bowlingGame = {
 };
 
 bowlingGame.famesScorePromt();
+
 console.log(bowlingGame.gameScore);
