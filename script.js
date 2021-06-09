@@ -16,7 +16,7 @@ const gameScore = 0;
 // }
 
 const bowlingGame = {
-  gameScore: [],
+  score: 0,
   finalScore: [],
 
   frameCalc: function (ball1, ball2) {
@@ -55,13 +55,18 @@ const bowlingGame = {
     }
   },
 
-  famesScoreArr: function () {
-    for (let frame = 0; frame > 10; frame++) {
-      bowlingGame.frameCalc();
-    }
+  gameScore: function (scoreArray) {
+    let score = 0;
+    scoreArray.forEach(function (el, i, arr) {
+      if (el === 'Strike') {
+        score = +(10 + scoreArray[i + 1] + scoreArray[i + 2]);
+      } else if (el === 'Spare') {
+        score = +10 + scoreArray[i + 1];
+      } else {
+        score = +el;
+      }
+    });
+    return score;
   },
 };
-
 bowlingGame.famesScorePromt();
-
-console.log(bowlingGame.gameScore);
