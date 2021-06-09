@@ -1,23 +1,8 @@
 'use strict';
 
-const sampleData = [1, 4, 4, 5, 6, 4, 5, 5, 10, 0, 1, 7, 3, 6, 4, 10, 2, 8, 6];
-const sampleGame = 0;
-// sampleData.forEach(function (currentElement, i, arr) {
-//   gameScore = +currentElement;
-//   if (currentElement === 10) {
-//   }
-// });
-
-// for ( let frame = 0; frame >= 10; frame++){
-//     for(let ball =0; ball >= 2; ball++ ){
-
-//     }
-
-// }
-
 const bowlingGame = {
   gameScore: [],
-  finalScore: [],
+  finalScore: 0,
   individualBalls: [],
 
   frameCalc: function (ball1, ball2) {
@@ -45,18 +30,18 @@ const bowlingGame = {
       if (frame <= 9 && ball1 === 10) {
         this.individualBalls.push(ball1);
         this.gameScore.push(bowlingGame.frameCalc(ball1));
-        console.log(`Playing frame ${frame}`);
+        console.log(`Frame: ${frame}`);
       } else if (frame === 10 && ball1 === 10) {
         ball2 = Number(prompt('Provide score for second ball'));
         ball3 = Number(prompt('Provide score for the extra throw'));
         this.individualBalls.push(ball1, ball2, ball3);
         this.gameScore.push(bowlingGame.frameCalc(ball1, ball2));
         this.gameScore.push(ball3);
-        console.log(`Playing Special ${frame}`);
+        console.log(`Extra ball ${frame}`);
       } else {
         this.individualBalls.push(ball1, ball2);
         this.gameScore.push(bowlingGame.frameCalc(ball1, ball2));
-        console.log(`Playing 2 rozne ${frame}`);
+        console.log(`Frame: ${frame}`);
       }
     }
   },
@@ -76,7 +61,7 @@ const bowlingGame = {
       if (el === 'Strike') {
         score = score + (10 + numbersArr[i + 1] + numbersArr[i + 2]);
       } else if (el === 'Spare') {
-        score = score + (10 + numbersArr[i + 1]);
+        score = score + (10 + numbersArr[i + 2]);
       } else {
         score = score + numbersArr[i];
       }
@@ -84,16 +69,26 @@ const bowlingGame = {
     });
     return score;
   },
-  // TUTAJ PRACUJE TERAZ
+
   scoreCalc: function (individualBalls) {
-    for (let i = 0; i < individualBalls.lenght; i++) {
-      if (individualBalls[i] === 10) {
+    let result = 0;
+    individualBalls.forEach(function (scores, i, arr) {
+      if (scores === 10) {
+        result += arr[i + 1];
+        result += arr[i + 2];
+        console.log(result);
+      } else if (scores + arr[i + 1] === 10) {
+        result += arr[i + 2];
+        console.log(result);
       }
-    }
+      result += scores;
+      console.log(result);
+    });
+    return result;
   },
 };
-
 bowlingGame.famesScorePromt();
 
 console.log(bowlingGame.individualBalls);
 console.log(bowlingGame.gameScore);
+console.log(bowlingGame.scoreCalc(bowlingGame.individualBalls));
